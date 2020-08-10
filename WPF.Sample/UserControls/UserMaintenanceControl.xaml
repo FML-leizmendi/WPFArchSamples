@@ -14,5 +14,61 @@
         <vm:UserMaintenanceViewModel x:Key="viewModel" />
     </UserControl.Resources>
     <Border Style="{StaticResource screenBorder}">
+        <Grid DataContext="{StaticResource viewModel}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ToolBar Grid.Row="0">
+                <Button Style="{StaticResource toolbarButton}"
+                        IsEnabled="{Binding Path=IsListEnabled}"
+                        ToolTip="Add new user">
+                        <Image Source="pack://application:,,,/
+                               WPF.Common;component/Images/Plus_Black.png"
+                               Style="{StaticResource toolbarImage}" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource toolbarButton}"
+                        IsEnabled="{Binding Path=IsListEnabled}"
+                        ToolTip="Edit current user">
+                    <Image Source="pack://application:,,,/
+                               WPF.Common;component/Images/Edit_Black.png"
+                           Style="{StaticResource toolbarImage}" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource toolbarButton}"
+                        IsEnabled="{Binding Path=IsListEnabled}"
+                        ToolTip="Delete current user">
+                    <Image Source="pack://application:,,,/
+                               WPF.Common;component/Images/Trash_Black.png"
+                           Style="{StaticResource toolbarImage}" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource toolbarButton}"
+                        IsEnabled="{Binding Path=IsDetailEnabled}"
+                        ToolTip="Undo changes">
+                    <Image Source="pack://application:,,,/
+                               WPF.Common;component/Images/Undo_Black.png"
+                           Style="{StaticResource toolbarImage}" />
+                </Button>
+                <Separator />
+                <Button Style="{StaticResource toolbarButton}"
+                        IsEnabled="{Binding Path=IsDetailEnabled}"
+                        ToolTip="Save changes">
+                    <Image Source="pack://application:,,,/
+                               WPF.Common;component/Images/Save_Black.png"
+                           Style="{StaticResource toolbarImage}" />
+                </Button>
+            </ToolBar>
+            <local:UserMaintenanceListControl Grid.Row="1"
+                                              x:Name="listControl"
+                                              DataContext="{StaticResource viewModel}" />
+            <local:UserMaintenanceDetailControl  Grid.Row="2" 
+                                                 x:Name="detailControl"
+                                                 DataContext="{StaticResource viewModel}"
+                                                 IsEnabled="{Binding Path=IsDetailEnabled}"
+                                                 Margin="-4,0,4,0" />
+        </Grid>
     </Border>
 </UserControl>

@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:WPF.Sample.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView ItemsSource="{Binding Path=Users}">
+    <ListView ItemsSource="{Binding Path=Users}"
+              SelectedItem="{Binding Path=Entity}"
+              IsEnabled="{Binding Path=IsListEnabled}">
         <ListView.View>
             <GridView>
                 <GridViewColumn Header="Edit">
@@ -36,9 +38,7 @@
                 <GridViewColumn Header="Email"
                                 Width="Auto"
                                 DisplayMemberBinding="{Binding Path=EmailAddress}" />
-                <GridViewColumn Header="Delete"
-                                Width="Auto"
-                                DisplayMemberBinding="{Binding Path=UserID}">
+                <GridViewColumn Header="Delete">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Button Style="{StaticResource toolbarButton}"

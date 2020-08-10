@@ -5,7 +5,7 @@ using WPF.Sample.DataLayer;
 
 namespace WPF.Sample.ViewModelLayer
 {
-    public class UserMaintenanceListControlViewModel :ViewModelBase
+    public class UserMaintenanceListViewModel : ViewModelAddEditDeleteBase
     {
         private ObservableCollection<User> _Users =
             new ObservableCollection<User>();
@@ -33,6 +33,22 @@ namespace WPF.Sample.ViewModelLayer
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
+        }
+
+        public override bool Save()
+        {
+            // TODO: Save USer
+            CancelEdit();
+
+            return true;
+            
+        }
+
+        public override bool Delete()
+        {
+            // TODO: Delete User
+
+            return true;
         }
     }
 }
