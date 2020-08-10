@@ -11,6 +11,7 @@
     <Window.Resources>
         <vm:MainWindowViewModel x:Key="viewModel"
                                 InfoMessageTitle="Please Wait While Loading Application"
+                                InfoMessageTimeout="1500"
                                 StatusMessage="Building a Flexible WPF Application" />
     </Window.Resources>
     <Grid Background="{StaticResource gridBackgroundColor}"
@@ -35,13 +36,15 @@
                           Click="MenuItem_Click" />
             </MenuItem>
             <MenuItem Header="Users"
+                      IsEnabled="{Binding UserEntity.IsLoggedIn}"
                       Tag="WPF.Sample.UserControls.UserMaintenanceControl"
                       Click="MenuItem_Click" />
             <MenuItem Header="Feedback"
+                      IsEnabled="{Binding UserEntity.IsLoggedIn}"
                       Tag="WPF.Sample.UserControls.UserFeedbackControl"
                       Click="MenuItem_Click" />
             <MenuItem Header="{Binding Path=LoginMenuHeader}"
-                      Tag="WPF.Sample.UserControls.LoginControl"
+                      Tag="login"
                       HorizontalAlignment="Right"
                       Click="MenuItem_Click" />
         </Menu>

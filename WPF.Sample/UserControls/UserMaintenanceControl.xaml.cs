@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Sample.ViewModelLayer;
 
 namespace WPF.Sample.UserControls
 {
@@ -23,6 +24,16 @@ namespace WPF.Sample.UserControls
         public UserMaintenanceControl()
         {
             InitializeComponent();
+
+            _viewModel = (UserMaintenanceViewModel)this.Resources["viewModel"];
+
+
+        }
+        private UserMaintenanceViewModel _viewModel = null;
+
+        private void CloseButton_Click(object serbder, RoutedEventArgs e)
+        {
+            _viewModel.Close();
         }
     }
 }

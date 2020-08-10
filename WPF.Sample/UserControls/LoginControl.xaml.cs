@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Sample.ViewModelLayer;
 
 namespace WPF.Sample.UserControls
 {
@@ -23,6 +24,24 @@ namespace WPF.Sample.UserControls
         public LoginControl()
         {
             InitializeComponent();
+
+            // Connect to instance of the view model created by the XAML
+            _viewModel = (LoginViewModel)this.Resources["viewModel"];
+        }
+
+        private LoginViewModel _viewModel = null;
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Close();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Entity.Password = txtPassword.Password;
+
+            _viewModel.Login();
+
         }
     }
 }

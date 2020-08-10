@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Sample.ViewModelLayer;
 
 namespace WPF.Sample.UserControls
 {
@@ -23,6 +24,26 @@ namespace WPF.Sample.UserControls
         public UserFeedbackControl()
         {
             InitializeComponent();
+
+            _viewModel = (UserFeedbackViewModel)this.Resources["viewModel"];
+        }
+
+        private UserFeedbackViewModel _viewModel = null;
+
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

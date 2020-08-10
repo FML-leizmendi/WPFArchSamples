@@ -4,6 +4,8 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using WPF.Sample.ViewModelLayer;
 using System.Windows.Controls;
+using Common.Library;
+using WPF.Sample.DataLayer;
 
 namespace WPF.Sample
 {
@@ -11,11 +13,50 @@ namespace WPF.Sample
   {
     public MainWindow()
     {
-      InitializeComponent();
+        InitializeComponent();
 
-            //  Connect to instance of the ciew model created by the XAML
-            _viewModel = (MainWindowViewModel)this.Resources["viewModel"];
-      
+        //  Connect to instance of the ciew model created by the XAML
+        _viewModel = (MainWindowViewModel)this.Resources["viewModel"];
+
+        MessageBroker.Instance.MessageReceived += Instance_MessageReceived;
+          
+            
+        _originalMessage = _viewModel.StatusMessage;      
+    }
+
+
+    // Hold the main window's original status message
+    private string _originalMessage = string.Empty;
+
+    private void Instance_MessageReceived(object sender, MessageBrokerEventArgs e)
+    {
+        switch (e.MessageName)
+        {
+                case MessageBrokerMessages.LOGIN_SUCCESS:
+                    _viewModel.UserEntity = (User)e.MessagePayload;
+                    _viewModel.LoginMenuHeader = "Logout " +
+                        _viewModel.UserEntity.UserName;
+                    break;
+                case MessageBrokerMessages.LOGOUT:
+                    _viewModel.UserEntity.IsLoggedIn = false;
+                    _viewModel.LoginMenuHeader = "Login ";
+                    break;
+                case MessageBrokerMessages.DISPLAY_TIMEOUT_INFO_MESSAGE_TITLE:
+                    _viewModel.InfoMessageTitle = e.MessagePayload.ToString();
+                    _viewModel.CreateInfoMessageTimer();
+                    break;
+                case MessageBrokerMessages.DISPLAY_TIMEOUT_INFO_MESSAGE:
+                    _viewModel.InfoMessage = e.MessagePayload.ToString();
+                    _viewModel.CreateInfoMessageTimer();
+                    break;
+                case MessageBrokerMessages.DISPLAY_STATUS_MESSAGE:
+                // Set new status message
+                _viewModel.StatusMessage=e.MessagePayload.ToString();
+                break;
+                case MessageBrokerMessages.CLOSE_USER_CONTROL:
+                    CloseUsercontrol();
+                    break;
+        }
     }
 
     // Main window's view model class
@@ -42,39 +83,61 @@ namespace WPF.Sample
         }
     }
 
+    private bool ShouldLoadUserControl (string controlName)
+    {
+        bool ret = true;
+
+            // Make sure you don't reload a control already loaded.
+            if (contentArea.Children.Count > 0)
+            {
+                if(((UserControl)contentArea.Children[0]).GetType().Name ==
+                    controlName.Substring(controlName.LastIndexOf(".") + 1))
+                {
+                    ret = false;
+                }
+            }
+        return ret;
+    }
     private void CloseUsercontrol()
     {
-        // Remove current user control
-        contentArea.Children.Clear();
-    }
+            // Remove current user control
+            contentArea.Children.Clear();
+
+            _viewModel.StatusMessage = _originalMessage;
+        }
 
     public void DisplayUserControl(UserControl uc)
-        {
-            CloseUsercontrol();
+    {
+        //CloseUsercontrol();
 
-            contentArea.Children.Add(uc);
-        }
+        contentArea.Children.Add(uc);
+    }
 
     private void LoadUserControl (string controlName)
         {
             Type ucType = null;
             UserControl uc = null;
 
-            // Create a Typr from controlName parameter
-            ucType = Type.GetType(controlName);
-            if (ucType == null)
+            if (ShouldLoadUserControl(controlName))
             {
-                MessageBox.Show("The Control: " + controlName
-                                + " does not exist");
-            }
-            else
-            {
-                // Create an instance of this control
-                uc = (UserControl)Activator.CreateInstance(ucType);
-                if (uc != null)
+                CloseUsercontrol();
+
+                // Create a Typr from controlName parameter
+                ucType = Type.GetType(controlName);
+                if (ucType == null)
                 {
-                    // Display control in content area
-                    DisplayUserControl(uc);
+                    MessageBox.Show("The Control: " + controlName
+                                    + " does not exist");
+                }
+                else
+                {
+                    // Create an instance of this control
+                    uc = (UserControl)Activator.CreateInstance(ucType);
+                    if (uc != null)
+                    {
+                        // Display control in content area
+                        DisplayUserControl(uc);
+                    }
                 }
             }
         }
@@ -85,6 +148,23 @@ namespace WPF.Sample
             {
                 case "exit":
                     this.Close();
+                    break;
+
+                case "login":
+                    if (_viewModel.UserEntity.IsLoggedIn)
+                    {
+                        //Logging out, so close any open windows
+                        CloseUsercontrol();
+                        //reset the user object
+                        _viewModel.UserEntity = new User();
+                        //Make menu display login
+                        _viewModel.LoginMenuHeader = "Login";
+                    }
+                    else
+                    {
+                        // display de Login screen
+                        LoadUserControl("WPF.Sample.UserControls.LoginControl");
+                    }
                     break;
                 default:
                     break;

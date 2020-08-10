@@ -14,7 +14,7 @@
   <!-- Drop Shadow for User Controls -->
   <!-- *********************************** -->
   <DropShadowEffect x:Key="screenShadow"
-                    Color="Gray"
+                    Color="DeepSkyBlue"
                     BlurRadius="5"
                     ShadowDepth="8" />
   <!-- *********************************** -->
