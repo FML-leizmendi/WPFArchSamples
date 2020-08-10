@@ -94,12 +94,7 @@
                                 Click="SendFeedbackButton_Click" />
                     </StackPanel>
                     <!-- Validation Message Area -->
-                    <ListBox Grid.Row="9"
-                             Style="{StaticResource validationArea}"
-                             Visibility="{Binding IsValidationVisible,
-                        Converter={StaticResource visibilityConverter}}"
-                             ItemsSource="{Binding ValidationMessages}"
-                             DisplayMemberPath="Message" />
+                    <local:ValidationMessageAreaControl Grid.Row="9" />
 
                 </Grid>
 

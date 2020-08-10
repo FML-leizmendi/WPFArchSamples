@@ -2,7 +2,7 @@
     
 namespace WPF.Sample.ViewModelLayer
 {
-    public class UserMaintenanceViewModel : ViewModelBase
+    public class UserMaintenanceViewModel : UserMaintenanceListControlViewModel
     {
         public UserMaintenanceViewModel() : base()
         {

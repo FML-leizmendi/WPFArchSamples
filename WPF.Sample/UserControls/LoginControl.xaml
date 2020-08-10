@@ -89,13 +89,8 @@
                         Click="LoginButton_Click" />
             </StackPanel>
             <!-- Validation Message Area -->
-            <ListBox Grid.Row="4"
-                     Grid.Column="2"
-                     Style="{StaticResource validationArea}"
-                     Visibility="{Binding IsValidationVisible,
-                        Converter={StaticResource visibilityConverter}}"
-                     ItemsSource="{Binding ValidationMessages}"
-                     DisplayMemberPath="Message" />
+            <local:ValidationMessageAreaControl Grid.Row="4"
+                                                Grid.Column="2" />
         </Grid>
     </Border>
 </UserControl>

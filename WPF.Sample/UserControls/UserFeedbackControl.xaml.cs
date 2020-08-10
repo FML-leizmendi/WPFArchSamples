@@ -36,14 +36,11 @@ namespace WPF.Sample.UserControls
             _viewModel.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
         {
-
+            _viewModel.SendFeedback();
         }
+
     }
 }
