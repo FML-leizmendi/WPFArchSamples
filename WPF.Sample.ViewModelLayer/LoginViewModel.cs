@@ -59,6 +59,8 @@ namespace WPF.Sample.ViewModelLayer
 
                 if (db.Users.Where(u => u.UserName == Entity.UserName)
                     .Count() > 0){
+                    var us = (User)db.Users.Where(u => u.UserName == Entity.UserName).FirstOrDefault();
+                    Entity.UserName = us.UserName;
                     ret = true;
                 }
                 else
@@ -90,6 +92,11 @@ namespace WPF.Sample.ViewModelLayer
                     // Send message that login was successful
                     MessageBroker.Instance.SendMessage(
                         MessageBrokerMessages.LOGIN_SUCCESS, Entity);
+
+                    MessageBroker.Instance.SendMessage(
+                        MessageBrokerMessages.DISPLAY_TIMEOUT_INFO_MESSAGE,
+                        Entity.UserName + " Logged In");
+
 
                     //Close the user control
                     Close(false);

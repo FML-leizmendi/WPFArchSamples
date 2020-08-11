@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF.Sample.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -44,6 +45,7 @@
                     Grid.Column="1"
                     Orientation="Horizontal">
             <Button IsCancel="True"
+                    Click="UndoButton_Click"
                     IsEnabled="{Binding Path=IsDetailEnabled}"
                     Style="{StaticResource toolbarButton}">
                 <StackPanel Orientation="Horizontal"
@@ -55,6 +57,7 @@
                 </StackPanel>
             </Button>
             <Button IsDefault="True"
+                    Click="SaveButton_Click"
                     IsEnabled="{Binding Path=IsDetailEnabled}"
                     Style="{StaticResource toolbarButton}">
                 <StackPanel Orientation="Horizontal"
