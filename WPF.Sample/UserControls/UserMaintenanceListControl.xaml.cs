@@ -46,7 +46,7 @@ namespace WPF.Sample.UserControls
             DeleteUser();
         }
 
-        private void DeleteUser()
+        public void DeleteUser()
         {
             // Ask if the user wants to delete this user
             if (MessageBox.Show("Delete User " + _viewModel.Entity.LastName + ", "
